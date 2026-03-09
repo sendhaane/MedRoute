@@ -6,11 +6,11 @@ let userMarker = null;
 let activeCard = null;
 let activeCategory = "human";
 
-var PUDUCHERRY_DEFAULT = { lat: 11.9416, lng: 79.8083 };
+var CHENNAI_DEFAULT = { lat: 13.0827, lng: 80.2707 };
 
 function initMap() {
     map = L.map("map", {
-        center: [PUDUCHERRY_DEFAULT.lat, PUDUCHERRY_DEFAULT.lng],
+        center: [CHENNAI_DEFAULT.lat, CHENNAI_DEFAULT.lng],
         zoom: 13,
         zoomControl: false
     });
@@ -22,7 +22,7 @@ function initMap() {
         maxZoom: 19
     }).addTo(map);
 
-    userLocation = { lat: PUDUCHERRY_DEFAULT.lat, lng: PUDUCHERRY_DEFAULT.lng };
+    userLocation = { lat: CHENNAI_DEFAULT.lat, lng: CHENNAI_DEFAULT.lng };
 
     geocodeLocationInput();
     bindSearchEvents();
@@ -40,13 +40,13 @@ function geocodeLocation(query) {
                     lng: parseFloat(data[0].lon)
                 };
             } else {
-                userLocation = { lat: PUDUCHERRY_DEFAULT.lat, lng: PUDUCHERRY_DEFAULT.lng };
+                userLocation = { lat: CHENNAI_DEFAULT.lat, lng: CHENNAI_DEFAULT.lng };
             }
             placeUserMarker();
             return userLocation;
         })
         .catch(function () {
-            userLocation = { lat: PUDUCHERRY_DEFAULT.lat, lng: PUDUCHERRY_DEFAULT.lng };
+            userLocation = { lat: CHENNAI_DEFAULT.lat, lng: CHENNAI_DEFAULT.lng };
             placeUserMarker();
             return userLocation;
         });
@@ -86,7 +86,7 @@ function geocodeLocationInput() {
 
 function resolveUserLocation() {
     if (userLocation) return userLocation;
-    userLocation = { lat: PUDUCHERRY_DEFAULT.lat, lng: PUDUCHERRY_DEFAULT.lng };
+    userLocation = { lat: CHENNAI_DEFAULT.lat, lng: CHENNAI_DEFAULT.lng };
     return userLocation;
 }
 

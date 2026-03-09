@@ -17,8 +17,15 @@
 </head>
 
 <body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">☰</button>
+    <!-- Panel Overlay Backdrop -->
+    <div class="panel-overlay" id="panel-overlay"></div>
+
     <div class="app-container">
-        <aside class="panel">
+        <aside class="panel" id="panel">
+            <!-- Panel Close Button (Mobile) -->
+            <button class="panel-close-btn" id="panel-close-btn" aria-label="Close menu">✕</button>
             <header class="panel-header">
                 <div class="logo">
                     <span class="logo-icon">💊</span>
@@ -105,6 +112,64 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
     <script src="/static/js/map.js"></script>
+    <script>
+        // Mobile panel toggle logic
+        (function () {
+            var menuBtn = document.getElementById('mobile-menu-btn');
+            var closeBtn = document.getElementById('panel-close-btn');
+            var panel = document.getElementById('panel');
+            var overlay = document.getElementById('panel-overlay');
+
+            function openPanel() {
+                panel.classList.add('open');
+                overlay.classList.add('active');
+                menuBtn.setAttribute('aria-label', 'Close menu');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closePanel() {
+                panel.classList.remove('open');
+                overlay.classList.remove('active');
+                menuBtn.setAttribute('aria-label', 'Open menu');
+                document.body.style.overflow = '';
+            }
+
+            menuBtn.addEventListener('click', function () {
+                if (panel.classList.contains('open')) {
+                    closePanel();
+                } else {
+                    openPanel();
+                }
+            });
+
+            closeBtn.addEventListener('click', closePanel);
+            overlay.addEventListener('click', closePanel);
+
+            // Auto-close panel when a search result card is clicked (mobile)
+            document.addEventListener('click', function (e) {
+                var card = e.target.closest('.result-card');
+                if (card && window.innerWidth <= 768) {
+                    setTimeout(closePanel, 300);
+                }
+            });
+
+            // Close panel on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && panel.classList.contains('open')) {
+                    closePanel();
+                }
+            });
+
+            // Reset state on window resize (if moving from mobile to desktop)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    panel.classList.remove('open');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
+    </script>
 </body>
 
 </html>
